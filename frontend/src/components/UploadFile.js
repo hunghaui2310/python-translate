@@ -5,6 +5,7 @@ import {CloseOutlined, DownloadOutlined, CheckOutlined, RightOutlined} from '@an
 import {BASE_URL, downloadFile, uploadFile} from "../services/UploadService";
 import {getCountry} from "../services/OpenAPIService";
 import logoPPT from '../assets/images/ppt-icon-499.png';
+
 const dataCountries = require('../assets/data/data1.json');
 
 const {Dragger} = Upload;
@@ -113,7 +114,7 @@ const UploadFile = () => {
     name: 'file',
     multiple: true,
     height: 400,
-    action: BASE_URL + '/api/upload?source=' + langSource + '&des=' + langDestination,
+    action: BASE_URL + '/api/files/',
     onChange: handleChangeUpload,
     onDrop(e) {
       console.log('Dropped files', e.dataTransfer.files);
@@ -144,19 +145,19 @@ const UploadFile = () => {
             filterOption={(input, option) => (option?.label.toLowerCase() ?? '').includes(input.toLowerCase())}
           />
         </div>
-          <Dragger
-            {...props}
-            accept=".ppt, .pptx"
-            className="upload-result w-100"
-          >
-            <p className="ant-upload-drag-icon">
-              <InboxOutlined/>
-            </p>
-            <p className="ant-upload-text">Click or drag file to this area to upload</p>
-            <p className="ant-upload-hint">
-              Document Files Supported: PPT, PPTX<br/>(Max size = 100MB)
-            </p>
-          </Dragger>
+        <Dragger
+          {...props}
+          accept=".ppt, .pptx"
+          className="upload-result w-100"
+        >
+          <p className="ant-upload-drag-icon">
+            <InboxOutlined/>
+          </p>
+          <p className="ant-upload-text">Click or drag file to this area to upload</p>
+          <p className="ant-upload-hint">
+            Document Files Supported: PPT, PPTX<br/>(Max size = 100MB)
+          </p>
+        </Dragger>
       </div>
       <div className="m-4 pt-190">
         <RightOutlined style={{fontSize: '60px'}}/>

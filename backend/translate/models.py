@@ -9,3 +9,9 @@ class Todo(models.Model):
 
     def _str_(self):
         return self.title
+
+class Files(models.Model):
+    file = models.FileField(upload_to='store/')
+
+    def __str__(self):
+        return self.file

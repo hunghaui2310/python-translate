@@ -2,7 +2,7 @@ import axios from "axios";
 import {BASE_URL} from "./UploadService";
 
 function testCallAPI() {
-  return fetch(BASE_URL + '/api/todos/').then(res => res.json());
+  return fetch(BASE_URL + '/to/todos/').then(res => res.json());
 }
 
 function testCallAPI2() {
