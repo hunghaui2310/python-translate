@@ -1,0 +1,16 @@
+{
+  "data": [
+    {
+      "label": "English",
+      "value": "en"
+    },
+    {
+      "label": "Korea",
+      "value": "ko"
+    },
+    {
+      "label": "Vietnam",
+      "value": "vi"
+    }
+  ]
+}

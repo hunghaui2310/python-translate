@@ -1,0 +1,58 @@
+.upload-result {
+    position: relative;
+    text-align: center;
+    background: rgba(0, 0, 0, 0.02);
+    border: 1px dashed #d9d9d9;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: border-color 0.3s;
+    height: 400px;
+}
+.upload-nodata {
+    display: table;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+}
+.upload-middle {
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+}
+.upload-item {
+    padding: 4px;
+    border: 1px solid #d9d9d9;
+    border-radius: 8px;
+    height: 50px;
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.upload-item-image {
+    display: flex;
+    margin-left: 5px;
+    align-items: end;
+}
+.upload-title {
+    margin: 0 0 2px 5px;
+    color: rgba(0, 0, 0, 0.88);
+    font-size: 16px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1; /* number of lines to show */
+    -webkit-box-orient: vertical;
+    max-width: 17rem;
+}
+.upload-item-action {
+    margin-right: 5px;
+    display: flex;
+}
+.title-footer {
+    font-size: 18px;
+    font-weight: 900;
+    color: #222;
+}
