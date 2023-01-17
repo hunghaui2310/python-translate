@@ -2,9 +2,10 @@ import React, {useEffect, useRef, useState} from 'react';
 import {InboxOutlined} from '@ant-design/icons';
 import {message, Upload, Progress, Empty, Button, Tooltip, Select} from 'antd';
 import {CloseOutlined, DownloadOutlined, CheckOutlined, RightOutlined} from '@ant-design/icons';
-import {BASE_URL, downloadFile, uploadFile} from "../services/UploadService";
+import {BASE_URL, downloadFile, getFile, uploadFile} from "../services/UploadService";
 import {getCountry} from "../services/OpenAPIService";
 import logoPPT from '../assets/images/ppt-icon-499.png';
+import axios from "axios";
 
 const dataCountries = require('../assets/data/data1.json');
 
@@ -16,6 +17,7 @@ const UploadFile = () => {
   const [countries, setCountries] = useState([]);
   const [langSource, setLanguageSource] = useState('auto');
   const [langDestination, setLangDestination] = useState('vi');
+  const [files, setFiles] = useState([]);
 
   const dummyRequest = ({info, onSuccess}) => {
     // setTimeout(() => {
@@ -38,6 +40,7 @@ const UploadFile = () => {
   useEffect(() => {
     // getCountryCode();
     setCountries(dataCountries.data);
+    getFile().then(res => setFiles(res.data));
   }, []);
 
   const handleChangeUpload = (info) => {
@@ -49,39 +52,6 @@ const UploadFile = () => {
       }
     });
     setSuccessFiles(files);
-    // switch (info.file.status) {
-    //   case "uploading":
-    //     const formData = new FormData();
-    //     formData.append('file', info.file.originFileObj);
-    //     uploadFile(formData).then((result) => {
-    //
-    //       if (result.ok) {
-    // console.log("ok = ", info.file);
-    // const files = fileList.filter(f => f.uid === info.file.uid);
-    // console.log('info = ', files);
-    // setTimeout(() => {
-    //   setSuccessFiles([{...successFiles, ...info.file}]);
-    // });
-    //     }
-    //   })
-    //     .catch((error) => {
-    //       console.log("error", info.file);
-    //       message.error(`${info.file.name} file upload failed.`);
-    //     });
-    //   break;
-    //
-    // case "done":
-    //   message.success(`${info.file.name} file uploaded successfully.`);
-    //   break;
-    //
-    // case "removed":
-    //   message.success(`${info.file.name} file removed successfully.`);
-    //   break;
-    //
-    // default:
-    //   message.error(`${info.file.name} file upload failed.`);
-    //   break;
-    // }
   }
 
   const changeStateDownload = (item) => {
@@ -94,14 +64,15 @@ const UploadFile = () => {
   };
 
   const handleDownload = (item) => {
-    downloadFile(item.name).then(res => {
-      const file = new Blob([res], {type: 'application/vnd.ms-powerpoint'});
+    downloadFile(item.file).then(res => {
+      const file = new Blob([res.data]);
       let url = URL.createObjectURL(file);
       let a = document.createElement('a');
       a.href = url;
-      a.download = item.name;
+      a.setAttribute('download', item.id + '.pptx');
+      document.body.appendChild(a);
       a.click();
-      window.URL.revokeObjectURL(url);
+      // window.URL.revokeObjectURL(url);
       changeStateDownload(item);
       message.success(`${item.name} file downloaded successfully.`);
     }).catch((err) => {
@@ -176,14 +147,14 @@ const UploadFile = () => {
           />
         </div>
         <div className="upload-result">
-          {successFiles && successFiles.map((item, index) =>
+          {files && files.map((item, index) =>
             <div className="upload-item m-2" key={index}>
               <div className="upload-item-image">
                 <a>
                   <img height={40} src={logoPPT}/>
                 </a>
-                <Tooltip title={item.name}>
-                  <p className="upload-title">{item.name}</p>
+                <Tooltip title={item.file}>
+                  <p className="upload-title">{item.file}</p>
                 </Tooltip>
               </div>
               <div className="upload-item-action">

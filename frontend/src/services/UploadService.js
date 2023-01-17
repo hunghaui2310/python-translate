@@ -1,3 +1,5 @@
+import axios from "axios";
+
 export const BASE_URL = 'http://localhost:8000';
 // export const BASE_URL = 'http://13.21.34.200:8080/translation';
 
@@ -11,11 +13,20 @@ function uploadFile(formData, sourceLang, desLang) {
     })
 }
 
-function downloadFile(fileName = '') {
-  return fetch(URL_UPLOAD + '/download?fileName=' + fileName).then(res => res.blob())
+function downloadFile(url) {
+  return axios({
+    method: 'get',
+    url,
+    responseType: 'arraybuffer'
+  })
+}
+
+function getFile() {
+  return axios.get(URL_UPLOAD + '/files/');
 }
 
 export {
   uploadFile,
-  downloadFile
+  downloadFile,
+  getFile
 }
