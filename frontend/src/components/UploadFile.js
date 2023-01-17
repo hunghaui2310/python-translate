@@ -85,7 +85,7 @@ const UploadFile = () => {
     name: 'file',
     multiple: true,
     height: 400,
-    action: BASE_URL + '/api/files/',
+    action: BASE_URL + '/api/files/?source=' + langSource + '&target=' + langDestination,
     onChange: handleChangeUpload,
     onDrop(e) {
       console.log('Dropped files', e.dataTransfer.files);
