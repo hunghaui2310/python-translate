@@ -57,10 +57,9 @@ def replace_text(file_name, source, target):
 
 def call_api(text_translate, target, source='auto'):
     try:
-        return text_translate
-        # query = {'sl': source, 'tl': target, 'dt': 't', 'client': 'gtx', 'q': text_translate}
-        # response = requests.get("https://translate.googleapis.com/translate_a/single", query)
-        # return response.json()[0][0][0]
+        query = {'sl': source, 'tl': target, 'dt': 't', 'client': 'gtx', 'q': text_translate}
+        response = requests.get("https://translate.googleapis.com/translate_a/single", query)
+        return response.json()[0][0][0]
     except Exception as e:
         print(e)
         return text_translate
