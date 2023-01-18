@@ -9,6 +9,7 @@ from .models import Todo, Files
 from .serializers import FilesSerializer
 from django.conf import settings
 from urllib.parse import unquote
+import os
 
 # Create your views here.
 @api_view(['GET'])
@@ -52,6 +53,8 @@ def replace_text(file_name, source, target):
                     print(cell.text)
                     if is_need_translate(cell.text):
                         cell.text = call_api(cell.text, target, source)
+    if not os.path.exists(settings.MEDIA_ROOT + "/translated"):
+        os.mkdir(settings.MEDIA_ROOT + "/translated")
     prs.save(file_path + '/translated/' + file_name)
 
 
