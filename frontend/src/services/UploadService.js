@@ -5,18 +5,10 @@ export const BASE_URL = 'http://localhost:8000';
 
 const URL_UPLOAD = BASE_URL + "/api";
 
-function uploadFile(formData, sourceLang, desLang) {
-  return fetch(URL_UPLOAD + '/upload?source=' + sourceLang + '&des=' + desLang,
-    {
-      method: 'POST',
-      body: formData,
-    })
-}
-
-function downloadFile(url) {
+function downloadFile(fileName) {
   return axios({
     method: 'get',
-    url,
+    url: BASE_URL + '/media/translated/' + fileName,
     responseType: 'arraybuffer'
   })
 }
@@ -26,7 +18,6 @@ function getFile() {
 }
 
 export {
-  uploadFile,
   downloadFile,
   getFile
 }

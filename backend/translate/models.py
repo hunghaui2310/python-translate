@@ -11,7 +11,7 @@ class Todo(models.Model):
         return self.title
 
 class Files(models.Model):
-    file = models.FileField(upload_to='store/')
+    file = models.FileField(upload_to='origin/')
 
     def __str__(self):
         return self.file

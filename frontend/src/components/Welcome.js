@@ -1,5 +1,5 @@
 import React, {useEffect} from "react";
-import {testCallAPI} from "../services/Test";
+import {testCallAPI, translate} from "../services/TranslateService";
 
 const Welcome = () => {
 

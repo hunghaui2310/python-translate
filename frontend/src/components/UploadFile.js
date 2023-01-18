@@ -6,9 +6,10 @@ import {BASE_URL, downloadFile, getFile, uploadFile} from "../services/UploadSer
 import {getCountry} from "../services/OpenAPIService";
 import logoPPT from '../assets/images/ppt-icon-499.png';
 import axios from "axios";
+import {translate} from "../services/TranslateService";
 
 const dataCountries = require('../assets/data/data1.json');
-
+const BASE_DOWNLOAD_URL = BASE_URL + '/media/origin/';
 const {Dragger} = Upload;
 
 const UploadFile = () => {
@@ -17,46 +18,36 @@ const UploadFile = () => {
   const [countries, setCountries] = useState([]);
   const [langSource, setLanguageSource] = useState('auto');
   const [langDestination, setLangDestination] = useState('vi');
-  const [files, setFiles] = useState([]);
-
-  const dummyRequest = ({info, onSuccess}) => {
-    // setTimeout(() => {
-    //   onSuccess("done");
-    // }, 0);
-  };
-
-  const getCountryCode = () => {
-    getCountry().then(res => {
-      const countries = res.map(country => {
-        return {
-          value: country.code,
-          label: country.name,
-        }
-      });
-      // setCountries([{value: 'auto', label: 'Auto'}, ...countries]);
-    })
-  }
 
   useEffect(() => {
-    // getCountryCode();
     setCountries(dataCountries.data);
-    getFile().then(res => setFiles(res.data));
   }, []);
 
   const handleChangeUpload = (info) => {
-
     let newFileList = [...info.fileList];
     const files = newFileList.filter(file => {
-      if (file.xhr) {
+      if (file.status === 'done') {
         return file;
       }
     });
-    setSuccessFiles(files);
-  }
+    if (!files || files.length === 0) return;
+    console.log('files = ', files);
+    files.forEach(file => {
+      const fileResponse = file.response;
+      const fileName = fileResponse.file.replace(BASE_DOWNLOAD_URL, '');
+       translate(fileName, langSource, langDestination).then(res => {
+        setSuccessFiles([...successFiles, {
+          id: fileResponse.id,
+          name: decodeURI(fileName),
+          isDownloaded: false
+        }]);
+      })
+    })
+  };
 
   const changeStateDownload = (item) => {
     setSuccessFiles(successFiles.map(file => {
-      if (file.uid === item.uid) {
+      if (file.id === item.id) {
         file.isDownloaded = true;
       }
       return file;
@@ -64,12 +55,12 @@ const UploadFile = () => {
   };
 
   const handleDownload = (item) => {
-    downloadFile(item.file).then(res => {
+    downloadFile(item.name).then(res => {
       const file = new Blob([res.data]);
       let url = URL.createObjectURL(file);
       let a = document.createElement('a');
       a.href = url;
-      a.setAttribute('download', item.id + '.pptx');
+      a.setAttribute('download', item.name);
       document.body.appendChild(a);
       a.click();
       // window.URL.revokeObjectURL(url);
@@ -85,10 +76,10 @@ const UploadFile = () => {
     name: 'file',
     multiple: true,
     height: 400,
-    action: BASE_URL + '/api/files/?source=' + langSource + '&target=' + langDestination,
+    action: BASE_URL + '/api/files/',
     onChange: handleChangeUpload,
     onDrop(e) {
-      console.log('Dropped files', e.dataTransfer.files);
+
     }
   };
 
@@ -147,14 +138,14 @@ const UploadFile = () => {
           />
         </div>
         <div className="upload-result">
-          {files && files.map((item, index) =>
+          {successFiles && successFiles.map((item, index) =>
             <div className="upload-item m-2" key={index}>
               <div className="upload-item-image">
                 <a>
                   <img height={40} src={logoPPT}/>
                 </a>
-                <Tooltip title={item.file}>
-                  <p className="upload-title">{item.file}</p>
+                <Tooltip title={item.name}>
+                  <p className="upload-title">{item.name}</p>
                 </Tooltip>
               </div>
               <div className="upload-item-action">
