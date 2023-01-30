@@ -70,4 +70,10 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
 
 token
-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
+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
+
+
+Backend require
+pipenv install djangorestframework django-cors-headers
+pip install requests
+pip install python-pptx

@@ -152,7 +152,6 @@ const UploadFile = () => {
                 <Button shape="circle" type="primary" className="mr-1"
                         icon={item.isDownloaded ? <CheckOutlined/> : <DownloadOutlined/>}
                         ghost onClick={() => handleDownload(item)}/>
-                <Button shape="circle" danger ghost icon={<CloseOutlined/>}/>
               </div>
             </div>)}
         </div>
