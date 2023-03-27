@@ -74,6 +74,20 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
 
+# Run Backend
+```
+python manage.py runserver
+```
+Install lib:
+```
+pip3 install django
+pip3 install django-cors-headers
+pip3 install djangorestframework
+pip3 install requests
+pip3 install python-pptx
+pip3 install python-pptx-text-replacer
+```
+
 # Deploy
 Python run as script. So follow this step to run backend:
 See more: [How To Set Up Django with Postgres, Nginx, and Gunicorn on Ubuntu 18.04](https://www.digitalocean.com/community/tutorials/how-to-set-up-django-with-postgres-nginx-and-gunicorn-on-ubuntu-18-04)
