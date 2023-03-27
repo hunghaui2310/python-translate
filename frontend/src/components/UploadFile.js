@@ -1,14 +1,13 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {InboxOutlined} from '@ant-design/icons';
-import {message, Upload, Progress, Empty, Button, Tooltip, Select} from 'antd';
+import {message, Upload, Spin, Button, Tooltip, Select} from 'antd';
 import {CloseOutlined, DownloadOutlined, CheckOutlined, RightOutlined} from '@ant-design/icons';
 import {BASE_URL, downloadFile, getFile, uploadFile} from "../services/UploadService";
-import {getCountry} from "../services/OpenAPIService";
 import logoPPT from '../assets/images/ppt-icon-499.png';
 import axios from "axios";
 import {translate} from "../services/TranslateService";
 
-const dataCountries = require('../assets/data/data1.json');
+const dataCountries = require('../assets/data/data2.json');
 const BASE_DOWNLOAD_URL = BASE_URL + '/media/origin/';
 const {Dragger} = Upload;
 
@@ -18,31 +17,30 @@ const UploadFile = () => {
   const [countries, setCountries] = useState([]);
   const [langSource, setLanguageSource] = useState('auto');
   const [langDestination, setLangDestination] = useState('vi');
+  const [translating, setTranslating] = useState(false);
 
   useEffect(() => {
     setCountries(dataCountries.data);
   }, []);
 
   const handleChangeUpload = (info) => {
-    let newFileList = [...info.fileList];
-    const files = newFileList.filter(file => {
-      if (file.status === 'done') {
-        return file;
-      }
-    });
-    if (!files || files.length === 0) return;
-    console.log('files = ', files);
-    files.forEach(file => {
+    if (info.file.status === 'done') {
+      const file = info.file;
       const fileResponse = file.response;
       const fileName = fileResponse.file.replace(BASE_DOWNLOAD_URL, '');
-       translate(fileName, langSource, langDestination).then(res => {
+      setTranslating(true);
+      translate(fileName, langSource, langDestination).then(res => {
+        setTranslating(false);
         setSuccessFiles([...successFiles, {
           id: fileResponse.id,
-          name: decodeURI(fileName),
+          name: decodeURI(res.data),
           isDownloaded: false
         }]);
+      }).catch(err => {
+        setTranslating(false);
+        message.error(`${fileName} file translate failed.`);
       })
-    })
+    }
   };
 
   const changeStateDownload = (item) => {
@@ -74,7 +72,6 @@ const UploadFile = () => {
 
   const props = {
     name: 'file',
-    multiple: true,
     height: 400,
     action: BASE_URL + '/api/files/',
     onChange: handleChangeUpload,
@@ -122,7 +119,7 @@ const UploadFile = () => {
         </Dragger>
       </div>
       <div className="m-4 pt-190">
-        <RightOutlined style={{fontSize: '60px'}}/>
+        {translating ? <Spin size="large"/> : <RightOutlined style={{fontSize: '50px'}}/>}
       </div>
       <div className="m-2 w-40p">
         <div className="mb-2">

@@ -1,5 +1,10 @@
-# Getting Started with Create React App
+# Run project
 
+Backend require\
+pipenv install djangorestframework django-cors-headers\
+pip3 install requests\
+pip3 install python-pptx\
+python3 -m pip install python-pptx-text-replacer\
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
@@ -69,11 +74,26 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
 
-token
-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
+# Deploy
+Python run as script. So follow this step to run backend:
+See more: [How To Set Up Django with Postgres, Nginx, and Gunicorn on Ubuntu 18.04](https://www.digitalocean.com/community/tutorials/how-to-set-up-django-with-postgres-nginx-and-gunicorn-on-ubuntu-18-04)
+1. Active the vitural environment
+```
+source translationenv/bin/activate
+```
 
+2. Update
+```
+/home/python-translate/manage.py makemigrations
+/home/python-translate/manage.py migrate
+```
 
-Backend require
-pipenv install djangorestframework django-cors-headers
-pip install requests
-pip install python-pptx
+3. Run with screen 
+```
+screen /home/python-translate/manage.py runserver 0.0.0.0:8000
+```
+
+React run as script. So follow this step to run frontend:
+### Build frontend `npm run build` or `react-scripts build`
+
+### `screen serve -s build` Run like script with screen
