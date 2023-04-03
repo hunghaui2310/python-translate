@@ -1,10 +1,5 @@
 # Run project
 
-Backend require\
-pipenv install djangorestframework django-cors-headers\
-pip3 install requests\
-pip3 install python-pptx\
-python3 -m pip install python-pptx-text-replacer\
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
